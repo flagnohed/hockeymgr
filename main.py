@@ -1,9 +1,14 @@
-import player
+from player import (
+    Player,
+    generate_random_player,
+    print_player,
+)
 
 
 def main():
-    test_name = player.generate_random_name()
-    print(test_name)
+    test_player: Player = generate_random_player()
+    print_player(test_player)
+
 
 if __name__ == "__main__":
     main()
