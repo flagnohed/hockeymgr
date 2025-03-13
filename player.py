@@ -1,60 +1,52 @@
-from enum import Enum
+from dataclasses import dataclass
 import random
 
 
 NATIONS = ["SWE"]
 POSITIONS = ["G", "D", "F"]
 
-PLAYER_HEIGHT_MEAN = 185
-PLAYER_HEIGHT_SIGMA = 7.5  # 170-200 cm
-PLAYER_WEIGHT_MEAN = 90
-PLAYER_WEIGHT_SIGMA = 10  # 70-110 kg
+
+@dataclass
+class Player():    
+    # Static attributes
+    name: str = ""
+    age: int = 0
+    height: int = 0  # In centimeters
+    weight: int = 0  # In kilos
+    handed: str = ""  # 'L' or 'R'
+    nation: str = "SWE"
+    position: str = ""
+
+    # Hidden attributes
+    # @todo: figure out how to implement this
+    development_factor = 0
+    max_potential = 0
 
 
-class Player():
-    # Create an empty player (both skaters and goalies)
-    def __init__(self):
-        # Static attributes
-        self.name: str = ""
-        self.age: int = 0
-        self.height: int = 0  # In centimeters
-        self.weight: int = 0  # In kilos
-        self.handed: str = ""  # 'L' or 'R'
-        self.nation: str = "SWE"
-        self.position: str = ""
-
-        # Hidden attributes
-        # @todo: figure out how to implement this
-        self.development_factor = 0
-        self.max_potential = 0
-
-
+@dataclass
 class Skater(Player):
-    def __init__(self):
-        super(Skater, self).__init__()
-        # Visible attributes
-        self.shot_pwr = 0
-        self.shot_acc = 0
-        self.passing = 0
-        self.off_aware = 0
-        self.speed = 0
-        self.bodycheck = 0
-        self.stickcheck = 0
-        self.def_aware = 0
-        self.shotblock = 0
-        self.strength = 0
+    # Visible attributes
+    shot_pwr = 0
+    shot_acc = 0
+    passing = 0
+    off_aware = 0
+    speed = 0
+    bodycheck = 0
+    stickcheck = 0
+    def_aware = 0
+    shotblock = 0
+    strength = 0
 
 
+@dataclass
 class Goalie(Player):
-    def __init__(self):
-        # Visible attributes
-        super(Goalie, self).__init__()
-        self.reflex = 0
-        self.speed = 0
-        self.positioning = 0
-        self.glove = 0
-        self.blocker = 0
-        self.agility = 0  # Sv. "vighet"
+    # Visible attributes
+    reflex = 0
+    speed = 0
+    positioning = 0
+    glove = 0
+    blocker = 0
+    agility = 0  # Sv. "vighet"
 
 
 def read_names_from_txt(fname: str) -> list[str]:
@@ -80,9 +72,8 @@ def generate_random_name(nation: str = "SWE") -> str:
 def generate_random_handedness(pos: str) -> str:
     # 89 - 11% L-R goalies in NHL history
     # 62 - 38% L-R skaters (NHL jan 2018)
-    return random.choices(["L", "R"], 
-                          weights=[0.89, 0.11] if pos == "G" else [0.62, 0.38], 
-                          k=1)[0]
+    w = [0.89, 0.11] if pos == "G" else [0.62, 0.38]
+    return random.choices(["L", "R"], weights=w, k=1)[0]
 
 
 def generate_random_age() -> int:
@@ -90,13 +81,52 @@ def generate_random_age() -> int:
 
 
 def generate_random_measurements() -> tuple[int, int]:
-    """ Returns (HEIGHT, WEIGHT). 
-        @todo: fix abnormal combos, like 173cm + 113kg """
-    height = int(random.normalvariate(PLAYER_HEIGHT_MEAN, 
-                                      PLAYER_HEIGHT_SIGMA))
-    weight = int(random.normalvariate(PLAYER_WEIGHT_MEAN, 
-                                      PLAYER_WEIGHT_SIGMA))
+    HEIGHT_MEAN: float = 185.0
+    HEIGHT_SIGMA: float = 7.5  # 170-200 cm
+    WEIGHT_SIGMA: float = 10.0
+    height = int(random.normalvariate(HEIGHT_MEAN, HEIGHT_SIGMA))
+    # Assume "normal hockey-weight" is e.g. 80kg at 180cm. 
+    weight_mean = height - 100
+    weight = int(random.normalvariate(weight_mean, WEIGHT_SIGMA))
     return height, weight
+
+
+def random_attribute_value() -> int:
+    mean = 70.0
+    stdd = 10.0
+    return int(random.normalvariate(mean, stdd))
+
+
+def generate_random_attributes_goalie(g: Goalie) -> int:
+    """ Generates random attributes for skaters. 
+        Attributes generated in this function are those
+        present in the Goalie dataclass. The attributes
+        present in the parent Player dataclass are generated
+        elsewhere. """
+    g.reflex = random_attribute_value()
+    g.speed = random_attribute_value()
+    g.positioning = random_attribute_value()
+    g.glove = random_attribute_value()
+    g.blocker = random_attribute_value()
+    g.agility = random_attribute_value()
+    
+
+def generate_random_attributes_skater(s: Skater) -> int:
+    """ Generates random attributes for skaters. 
+        Attributes generated in this function are those
+        present in the Skater dataclass. The attributes
+        present in the parent Player dataclass are generated
+        elsewhere. """
+    s.shot_pwr = random_attribute_value()
+    s.shot_acc = random_attribute_value()
+    s.passing = random_attribute_value()
+    s.off_aware = random_attribute_value()
+    s.speed = random_attribute_value()
+    s.bodycheck = random_attribute_value()
+    s.stickcheck = random_attribute_value()
+    s.def_aware = random_attribute_value()
+    s.shotblock = random_attribute_value()
+    s.strength = random_attribute_value()
 
 
 def generate_random_player(pos: str = "",
@@ -110,14 +140,54 @@ def generate_random_player(pos: str = "",
     p.height, p.weight = generate_random_measurements()
     p.position = pos
     p.nation = nation
+    if p.position == "G":
+        generate_random_attributes_goalie(p)
+    else:
+        generate_random_attributes_skater(p)
     return p
 
 
-def print_player(p: Player) -> None:
+def print_player_info(p: Player) -> None:
     print(f"[{p.nation}] {p.name}, {p.age}")
     print(f"Position: {p.position}")
     print(f"Height: {p.height} cm")
     print(f"Weight: {p.weight} kg")
     prefix = "Catches" if p.position == "G" else "Shoots"
     print(prefix + f": {p.handed}")
-    
+
+
+DELIMITER: str = 25 * "-"
+
+
+def print_goalie_attributes(g: Goalie) -> None:
+    print(DELIMITER)
+    print(f"| Agility:     {g.agility}")
+    print(f"| Blocker:     {g.blocker}")
+    print(f"| Glove:       {g.glove}")
+    print(f"| Positioning: {g.positioning}")
+    print(f"| Reflexes:    {g.reflex}")
+    print(f"| Speed:       {g.speed}")
+    print(DELIMITER)
+
+
+def print_skater_attributes(s: Skater) -> None:
+    print(DELIMITER)
+    print(f"| Shot power:          {s.shot_pwr}")
+    print(f"| Shot accuracy:       {s.shot_acc}")
+    print(f"| Passing:             {s.passing}")
+    print(f"| Offensive awareness: {s.off_aware}")
+    print(f"| Speed:               {s.speed}")
+    print(f"| Body checking:       {s.bodycheck}")
+    print(f"| Stick checking:      {s.stickcheck}")
+    print(f"| Defensive awareness: {s.def_aware}")
+    print(f"| Shot blocking:       {s.shotblock}")
+    print(f"| Strength:            {s.strength}")
+    print(DELIMITER)
+
+
+def print_player(p: Player) -> None:
+    print_player_info(p)
+    if p.position == "G":
+        print_goalie_attributes(p)
+    else:
+        print_skater_attributes(p)
