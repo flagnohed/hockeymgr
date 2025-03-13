@@ -24,6 +24,7 @@ class Player():
         self.position: str = ""
 
         # Hidden attributes
+        # @todo: figure out how to implement this
         self.development_factor = 0
         self.max_potential = 0
 
@@ -70,8 +71,8 @@ def generate_random_name(nation: str = "SWE") -> str:
         print(f"Invalid nation: {nation}")
         exit(1)
 
-    firsts = read_names_from_txt(f"firstname_{nation}.txt")
-    lasts = read_names_from_txt(f"lastname_{nation}.txt")
+    firsts = read_names_from_txt(f"names/firstname_{nation}.txt")
+    lasts = read_names_from_txt(f"names/lastname_{nation}.txt")
 
     return random.choice(firsts) + " " + random.choice(lasts)
 
