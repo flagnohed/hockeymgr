@@ -10,5 +10,22 @@ Plan is to begin with Player
 * Randomization should be bell-curve-ish
 * Player size should be a factor (big player --> slower but tougher)
 
-At the moment, ONLY focus on player (i.e., not team)
-
+[2025-03-14] Example player printed:
+-------------------------
+| [SWE] Christian Björklund, 19
+| Position: Defender
+| Shoots: Left
+| Height: 181 cm
+| Weight: 90 kg
+| Total:  71 OVR
+-------------------------
+| Offensive awareness: 79
+| Passing:             74
+| Shooting:            57
+| Speed:               62
+-------------------------
+| Defensive awareness: 84
+| Stick checking:      63
+| Shot blocking:       80
+| Strength:            73
+-------------------------
