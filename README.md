@@ -11,6 +11,7 @@ Plan is to begin with Player
 * Player size should be a factor (big player --> slower but tougher)
 
 [2025-03-14] Example player printed:
+```
 -------------------------
 | [SWE] Christian Björklund, 19
 | Position: Defender
@@ -29,3 +30,4 @@ Plan is to begin with Player
 | Shot blocking:       80
 | Strength:            73
 -------------------------
+```
