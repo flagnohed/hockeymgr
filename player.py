@@ -7,7 +7,7 @@ POSITION_MAP = {"G": "Goalie", "D": "Defender", "F": "Forward"}
 
 
 @dataclass
-class Player():    
+class Player:
     # Static attributes
     name: str = ""
     age: int = 0
@@ -16,7 +16,7 @@ class Player():
     handed: str = ""  # 'L' or 'R'
     nation: str = "SWE"
     position: str = ""
-    total: int = 0      # derived from Skater/Goalie attributes
+    total: int = 0  # derived from Skater/Goalie attributes
     # Hidden attributes
     # @todo: figure out how to implement this
     development_factor = 0
@@ -84,7 +84,7 @@ def generate_random_measurements() -> tuple[int, int]:
     HEIGHT_SIGMA: float = 7.5  # 170-200 cm
     WEIGHT_SIGMA: float = 10.0
     height = int(random.normalvariate(HEIGHT_MEAN, HEIGHT_SIGMA))
-    # Assume "normal hockey-weight" is e.g. 80kg at 180cm. 
+    # Assume "normal hockey-weight" is e.g. 80kg at 180cm.
     weight_mean = height - 100
     weight = int(random.normalvariate(weight_mean, WEIGHT_SIGMA))
     return height, weight
@@ -97,11 +97,11 @@ def random_attribute_value() -> int:
 
 
 def generate_random_attributes_goalie(g: Goalie) -> None:
-    """ Generates random attributes for skaters. 
-        Attributes generated in this function are those
-        present in the Goalie dataclass. The attributes
-        present in the parent Player dataclass are generated
-        elsewhere. """
+    """Generates random attributes for skaters.
+    Attributes generated in this function are those
+    present in the Goalie dataclass. The attributes
+    present in the parent Player dataclass are generated
+    elsewhere."""
     NUM_ATTRS: int = 6
     g.reflex = random_attribute_value()
     g.speed = random_attribute_value()
@@ -110,16 +110,18 @@ def generate_random_attributes_goalie(g: Goalie) -> None:
     g.blocker = random_attribute_value()
     g.agility = random_attribute_value()
 
-    g.total = int((g.reflex + g.speed + g.positioning + \
-               g.glove + g.blocker + g.agility) / NUM_ATTRS)
-    
+    g.total = int(
+        (g.reflex + g.speed + g.positioning + g.glove + g.blocker + g.agility)
+        / NUM_ATTRS
+    )
+
 
 def generate_random_attributes_skater(s: Skater) -> None:
-    """ Generates random attributes for skaters. 
-        Attributes generated in this function are those
-        present in the Skater dataclass. The attributes
-        present in the parent Player dataclass are generated
-        elsewhere. """
+    """Generates random attributes for skaters.
+    Attributes generated in this function are those
+    present in the Skater dataclass. The attributes
+    present in the parent Player dataclass are generated
+    elsewhere."""
     NUM_ATTRS: int = 8
     # Offensive attributes
     s.shooting = random_attribute_value()
@@ -133,12 +135,22 @@ def generate_random_attributes_skater(s: Skater) -> None:
     s.shotblock = random_attribute_value()
     s.strength = random_attribute_value()
 
-    s.total = int((s.shooting + s.passing + s.off_aware + s.speed + \
-                   s.stickcheck + s.def_aware + s.shotblock + s.strength) / NUM_ATTRS)
-     
+    s.total = int(
+        (
+            s.shooting
+            + s.passing
+            + s.off_aware
+            + s.speed
+            + s.stickcheck
+            + s.def_aware
+            + s.shotblock
+            + s.strength
+        )
+        / NUM_ATTRS
+    )
 
-def generate_random_player(pos: str = "",
-                           nation: str = "SWE") -> Player:
+
+def generate_random_player(pos: str = "", nation: str = "SWE") -> Player:
     if not pos:
         pos = random.choice(list(POSITION_MAP.keys()))
 
