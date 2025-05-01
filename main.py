@@ -6,8 +6,9 @@ from player import (
 
 
 def main():
-    p = Player(_random=True)
+    p = Player()
     p.print()
+
 
 if __name__ == "__main__":
     main()

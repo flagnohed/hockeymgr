@@ -13,11 +13,8 @@ class Player:
     weight_sigma: float = 10.0
     delimiter: str = 25 * "-"
 
-    def __init__(self, _random: bool = True, _pos: str = ""):
-        if _random:
-            self.generate_random_player(_pos)
-            return
-
+    def __init__(self, _pos: str = ""):
+        self.generate_random_player(_pos)
         # In the future, maybe read player from file here?
 
     def generate_random_player(self, pos):
@@ -36,7 +33,7 @@ class Player:
                 "glove",
                 "blocker",
                 "agility",
-                ]
+            ]
 
         else:
             keys = [
@@ -48,29 +45,26 @@ class Player:
                 "bodycheck",
                 "stickcheck",
                 "strength",
-                ]
+            ]
 
         for k in keys:
             self.attrs[k] = self.generate_random_attribute_value()
 
         self.total = int(sum(self.attrs.values()) / len(self.attrs))
 
-
     def generate_random_position(self) -> str:
         return random.choice(list(POSITION_MAP.keys()))
 
-
     def read_names_from_txt(self, fname: str) -> list[str]:
         names: list[str] = []
-        with open(fname, "r", errors="replace") as f:
+        with open(fname, "r", errors="replace", encoding="utf-8") as f:
             names = f.readlines()
         for i in range(len(names)):
             names[i] = "".join([c for c in names[i] if c.isalpha()])
         return names
 
-
     def generate_random_name(self, nation: str = "SWE") -> str:
-        if nation not in NATION_MAP.keys():
+        if nation not in NATION_MAP:
             print(f"Invalid nation: {nation}")
             sys.exit(1)
 
@@ -78,7 +72,6 @@ class Player:
         lasts = self.read_names_from_txt(f"names/lastname_{nation}.txt")
 
         return random.choice(firsts) + " " + random.choice(lasts)
-
 
     def generate_random_handedness(self) -> str:
         # 89 - 11% L-R goalies in NHL history
@@ -89,10 +82,8 @@ class Player:
         w = [0.89, 0.11] if self.position == "G" else [0.62, 0.38]
         return random.choices(["Left", "Right"], weights=w, k=1)[0]
 
-
     def generate_random_age(self) -> int:
         return random.choice(range(18, 35))
-
 
     def generate_random_measurements(self) -> tuple[int, int]:
         height = int(random.normalvariate(self.height_mean, self.height_sigma))
@@ -101,10 +92,8 @@ class Player:
         weight = int(random.normalvariate(weight_mean, self.weight_sigma))
         return height, weight
 
-
     def generate_random_attribute_value(self) -> int:
         return int(random.normalvariate(self.attr_mean, self.attr_stdd))
-
 
     def print_player_info(self) -> None:
         print(self.delimiter)
@@ -115,7 +104,6 @@ class Player:
         print(f"| Height: {self.height} cm")
         print(f"| Weight: {self.weight} kg")
         print(f"| Total:  {self.total} OVR")
-
 
     def print(self):
         self.print_player_info()
