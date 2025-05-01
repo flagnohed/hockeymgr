@@ -2,15 +2,12 @@
 
 from player import (
     Player,
-    generate_random_player,
-    print_player,
 )
 
 
 def main():
-    test_player: Player = generate_random_player()
-    print_player(test_player)
-
+    p = Player(_random=True)
+    p.print()
 
 if __name__ == "__main__":
     main()
