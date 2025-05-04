@@ -10,6 +10,10 @@ Plan is to begin with Player
 * Randomization should be bell-curve-ish
 * Player size should be a factor (big player --> slower but tougher)
 
+TODO:
+* Try to make attribute generation not _as_ random. For example, it
+    is weird when a goalie has 50 in reflexes but 85 in glove.
+
 [2025-03-14] Example player printed:
 ```
 -------------------------
