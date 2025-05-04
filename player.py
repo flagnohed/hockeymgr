@@ -18,6 +18,7 @@ class Player:
         # In the future, maybe read player from file here?
 
     def generate_random_player(self, pos):
+        self.id = random.randint(0, 100)
         self.name = self.generate_random_name()
         self.age = self.generate_random_age()
         self.height, self.weight = self.generate_random_measurements()
