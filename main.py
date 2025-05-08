@@ -1,13 +1,12 @@
 #!/usr/bin/env python3
 
-from player import (
-    Player,
-)
+from player import Player
+from team import Team
 
 
 def main():
-    p = Player()
-    p.print()
+    team1: Team = Team("Team 1")
+    team1.print_line()
 
 
 if __name__ == "__main__":

@@ -56,6 +56,9 @@ class Player:
     def generate_random_position(self) -> str:
         return random.choice(list(POSITION_MAP.keys()))
 
+    def get_last_name(self) -> str:
+        return " ".join(self.name.split(" ")[1:])
+
     def read_names_from_txt(self, fname: str) -> list[str]:
         names: list[str] = []
         with open(fname, "r", errors="replace", encoding="utf-8") as f:
