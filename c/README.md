@@ -9,3 +9,7 @@ The program is built with `make`
 Contains the main driver of the program. 
 Also implements the logic for games, i.e. simulations etc.
 
+### player.c
+The player module can be used to generate random players.
+It also obviously defines what a player is.
+

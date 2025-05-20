@@ -8,8 +8,28 @@
 #define HEIGHT_MIN 170
 #define HEIGHT_MAX 200
 
+#define NUM_ATTRS_G 2
+#define NUM_ATTRS_S 7
 
 int last_id = 0;
+
+
+uint8_t
+get_total_rating(Player_t *player) {
+    uint8_t tot = 0;
+
+    if (player->pos == POS_G) {
+        GoalieAttrs_t g = player->goalie;
+        tot = (uint8_t) ((g.positioning + g.reflexes) / NUM_ATTRS_G);
+    } 
+    else {
+        SkaterAttrs_t s = player->skater;
+        tot = (uint8_t) ((s.body_check + s.d_awareness + s.o_awareness +
+                          s.passing + s.shooting + s.speed +
+                          s.stick_check) / NUM_ATTRS_S);
+    }
+    return tot;
+}
 
 
 /* Return random uint8_t in range [min_val, max_val]. */
@@ -126,15 +146,39 @@ pos_to_str(Position_t pos) {
 }
 
 
-/* Prints a player. 
- * TODO: Print skater/goalie attributes. */
+void
+print_goalie_attrs(GoalieAttrs_t *ga) {
+    printf("Reflexes:    %d\n", ga->reflexes);
+    printf("Positioning: %d\n", ga->positioning);
+}
+
+
+void
+print_skater_attrs(SkaterAttrs_t *sa) {
+    printf("OAwareness:  %d\n", sa->o_awareness);
+    printf("Passing:     %d\n", sa->passing);
+    printf("Shooting:    %d\n", sa->shooting);
+    printf("Bodycheck:   %d\n", sa->body_check);
+    printf("DAwareness:  %d\n", sa->d_awareness);
+    printf("Stickcheck:  %d\n", sa->stick_check);
+    printf("Speed:       %d\n", sa->speed);
+}
+
+
 void
 print_player(Player_t *player) {
-    printf("Id:         %d\n", player->id);
-    printf("Name:       %s\n", player->name);
-    printf("Handedness: %c\n", player->handed);
-    printf("Height:     %d cm\n", player->height);
-    printf("Weight:     %d kg\n", player->weight);
-    printf("Position:   %s\n", pos_to_str(player->pos));
+    printf("Id:          %d\n", player->id);
+    printf("Name:        %s\n", player->name);
+    printf("Handedness:  %c\n", player->handed);
+    printf("Height:      %d cm\n", player->height);
+    printf("Weight:      %d kg\n", player->weight);
+    printf("Position:    %s\n", pos_to_str(player->pos));
+    
+    if (player->pos == POS_G)
+        print_goalie_attrs(&player->goalie);
+    else
+        print_skater_attrs(&player->skater);
+    
+    printf("Total:       %d\n", get_total_rating(player));
 }
 
