@@ -2,33 +2,31 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
+
 
 #define ATTR_VAL_MIN 60
 #define ATTR_VAL_MAX 80
 #define HEIGHT_MIN 170
 #define HEIGHT_MAX 200
-
 #define NUM_ATTRS_G 2
 #define NUM_ATTRS_S 7
+
 
 int last_id = 0;
 
 
 uint8_t
 get_total_rating(Player_t *player) {
-    uint8_t tot = 0;
-
     if (player->pos == POS_G) {
         GoalieAttrs_t g = player->goalie;
-        tot = (uint8_t) ((g.positioning + g.reflexes) / NUM_ATTRS_G);
+        return (uint8_t) ((g.positioning + g.reflexes) / NUM_ATTRS_G);
     } 
-    else {
-        SkaterAttrs_t s = player->skater;
-        tot = (uint8_t) ((s.body_check + s.d_awareness + s.o_awareness +
-                          s.passing + s.shooting + s.speed +
-                          s.stick_check) / NUM_ATTRS_S);
-    }
-    return tot;
+
+    SkaterAttrs_t s = player->skater;
+    return (uint8_t) ((s.body_check + s.d_awareness + s.o_awareness +
+                      s.passing + s.shooting + s.speed +
+                      s.stick_check) / NUM_ATTRS_S);
 }
 
 
@@ -85,7 +83,7 @@ create_random_player(Position_t pos) {
     Player_t *p = malloc(sizeof(Player_t));
     
     /* Start by adding the general info. */
-    p->id = last_id++;
+    p->id = ++last_id;
     
     const char *name = "Test Nameson";
     strncpy(p->name, name, NAME_LEN_MAX - 1);  /* TODO: Get random name from list of common names. */
