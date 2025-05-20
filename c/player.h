@@ -40,7 +40,7 @@ typedef struct {
 
 
 typedef struct {
-    uint8_t id;      /* Unique per player. */
+    int id;      /* Unique per player. */
     char name[NAME_LEN_MAX];
     char handed;     /* Handedness, 'L' or 'R'. */
     uint8_t height;

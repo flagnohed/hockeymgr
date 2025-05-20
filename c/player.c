@@ -9,7 +9,7 @@
 #define HEIGHT_MAX 200
 
 
-int last_id = -1;
+int last_id = 0;
 
 
 /* Return random uint8_t in range [min_val, max_val]. */
@@ -130,11 +130,11 @@ pos_to_str(Position_t pos) {
  * TODO: Print skater/goalie attributes. */
 void
 print_player(Player_t *player) {
-    printf("Id: %d\n", player->id);
-    printf("Name: %s\n", player->name);
+    printf("Id:         %d\n", player->id);
+    printf("Name:       %s\n", player->name);
     printf("Handedness: %c\n", player->handed);
-    printf("Height: %d\n", player->height);
-    printf("Weight: %d\n", player->weight);
-    printf("Position: %s\n", pos_to_str(player->pos));
+    printf("Height:     %d cm\n", player->height);
+    printf("Weight:     %d kg\n", player->weight);
+    printf("Position:   %s\n", pos_to_str(player->pos));
 }
 
