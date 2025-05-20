@@ -1,8 +1,8 @@
-#include <stdio.h>
-
+#include "player.h"
 
 int main() {
-    printf("hockeymgr\n");
+    Player_t *random_player = create_random_player(POS_LD);
+    print_player(random_player);
     return 0;
 }
 

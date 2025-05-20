@@ -5,6 +5,9 @@
 #include <stdint.h>
 
 
+#define NAME_LEN_MAX 50
+
+
 typedef enum {
     POS_G,
     POS_LD,
@@ -13,6 +16,7 @@ typedef enum {
     POS_RW,
     POS_C,
 }   Position_t;
+
 
 
 typedef struct {
@@ -37,7 +41,7 @@ typedef struct {
 
 typedef struct {
     uint8_t id;      /* Unique per player. */
-    char *name;
+    char name[NAME_LEN_MAX];
     char handed;     /* Handedness, 'L' or 'R'. */
     uint8_t height;
     uint8_t weight;
@@ -47,5 +51,9 @@ typedef struct {
         GoalieAttrs_t goalie;
     };
 }   Player_t;
+
+
+Player_t *create_random_player(Position_t pos);
+void print_player(Player_t *player);
 
 #endif
