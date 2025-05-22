@@ -3,6 +3,12 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <dirent.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
+#include <limits.h>
+
 
 
 #define ATTR_VAL_MIN 60
@@ -12,8 +18,26 @@
 #define NUM_ATTRS_G 2
 #define NUM_ATTRS_S 7
 
+#define PLAYER_DIR "players"
 
-int last_id = 0;
+int last_player_id = 0;
+
+
+void
+write_to_file(Player_t *player) {
+    FILE *fp;
+    struct stat st = {0};
+
+    /* Create player directory if it doesn't exist. */
+    if (stat(PLAYER_DIR, &st) == -1) {
+        mkdir(PLAYER_DIR, 0700);
+    }
+    /* Player file path e.g. players/id_432.txt. */
+    char fpath[PATH_MAX];
+    snprintf(fpath, PATH_MAX - 1, "%s/id_%d.txt", PLAYER_DIR, player->id);
+    fp = fopen(fpath, "w");
+
+}
 
 
 uint8_t
@@ -83,7 +107,7 @@ create_random_player(Position_t pos) {
     Player_t *p = malloc(sizeof(Player_t));
     
     /* Start by adding the general info. */
-    p->id = ++last_id;
+    p->id = ++last_player_id;
     
     const char *name = "Test Nameson";
     strncpy(p->name, name, NAME_LEN_MAX - 1);  /* TODO: Get random name from list of common names. */
