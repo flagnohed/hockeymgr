@@ -10,15 +10,18 @@
 #include <limits.h>
 
 
-
 #define ATTR_VAL_MIN 60
 #define ATTR_VAL_MAX 80
 #define HEIGHT_MIN 170
 #define HEIGHT_MAX 200
 #define NUM_ATTRS_G 2
 #define NUM_ATTRS_S 7
+#define BUF_SIZE 65536
 
 #define PLAYER_DIR "players"
+#define PATH_FNAMES "../names/firstname_SWE.txt"
+#define PATH_LNAMES "../names/lastname_SWE.txt"
+
 
 int last_player_id = 0;
 
@@ -36,7 +39,6 @@ write_to_file(Player_t *player) {
     char fpath[PATH_MAX];
     snprintf(fpath, PATH_MAX - 1, "%s/id_%d.txt", PLAYER_DIR, player->id);
     fp = fopen(fpath, "w");
-
 }
 
 
@@ -45,7 +47,7 @@ get_total_rating(Player_t *player) {
     if (player->pos == POS_G) {
         GoalieAttrs_t g = player->goalie;
         return (uint8_t) ((g.positioning + g.reflexes) / NUM_ATTRS_G);
-    } 
+    }
 
     SkaterAttrs_t s = player->skater;
     return (uint8_t) ((s.body_check + s.d_awareness + s.o_awareness +
@@ -67,7 +69,7 @@ random_choice(uint8_t min_val, uint8_t max_val) {
         min_val = max_val;
         max_val = tmp;
     }
-    
+
     int rn = rand();
     return (uint8_t) (rn % (max_val - min_val + 1) + min_val);
 }
@@ -82,7 +84,7 @@ random_handedness(void) {
     uint8_t c = random_choice(0, 1);
     if (c == 0)
         return 'L';
-    
+
     return 'R';
 }
 
@@ -100,25 +102,46 @@ random_weight(uint8_t height) {
 }
 
 
+/* Returns the number of lines in the given file,
+ * or -1 if reading the file failed. */
+int
+count_lines(FILE *f) {
+    char buf[BUF_SIZE] = {};
+    int counter = 0;
+    size_t res;
+    for (;;) {
+        res = fread(buf, 1, BUF_SIZE, f);
+        if (ferror(f))
+            return -1;
+    }
+}
+
+static char *
+random_name(void) {
+
+}
+
+
+
 /* Creates a random player with random attributes. */
 Player_t *
 create_random_player(Position_t pos) {
-    
+
     Player_t *p = malloc(sizeof(Player_t));
-    
+
     /* Start by adding the general info. */
     p->id = ++last_player_id;
-    
+
     const char *name = "Test Nameson";
     strncpy(p->name, name, NAME_LEN_MAX - 1);  /* TODO: Get random name from list of common names. */
-    
+
     p->handed = random_handedness();
     p->height = random_choice(HEIGHT_MIN, HEIGHT_MAX);
     p->weight = random_weight(p->height);
-    
+
     /* Now add skater/goalie specific attributes. */
     switch (pos) {
-        case POS_G:    
+        case POS_G:
             p->pos = pos;
             p->goalie.positioning = random_choice(ATTR_VAL_MIN, ATTR_VAL_MAX);
             p->goalie.reflexes = random_choice(ATTR_VAL_MIN, ATTR_VAL_MIN);
@@ -142,8 +165,8 @@ create_random_player(Position_t pos) {
             exit(EXIT_FAILURE);
             break;
     }
-    
-    return p; 
+
+    return p;
 }
 
 static char *
@@ -195,12 +218,12 @@ print_player(Player_t *player) {
     printf("Height:      %d cm\n", player->height);
     printf("Weight:      %d kg\n", player->weight);
     printf("Position:    %s\n", pos_to_str(player->pos));
-    
+
     if (player->pos == POS_G)
         print_goalie_attrs(&player->goalie);
     else
         print_skater_attrs(&player->skater);
-    
+
     printf("Total:       %d\n", get_total_rating(player));
 }
 
