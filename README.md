@@ -1,37 +1,15 @@
-# HockeyMGR
+This subdirectory contains the C implementation of HockeyMgr.
+Very unnecessary but could be fun to implement.
 
-My version of livehockey
+## Files
+This section describes the intended structure of this repo.
+The program is built with `make`
 
-Object oriented in python (to begin with, can choose other language in future)
+### main.c
+Contains the main driver of the program. 
+Also implements the logic for games, i.e. simulations etc.
 
-Plan is to begin with Player
-* Define player, i.e., what attributes, etc.
-* How does a player grow, what hidden attributes does it have
-* Randomization should be bell-curve-ish
-* Player size should be a factor (big player --> slower but tougher)
+### player.c
+The player module can be used to generate random players.
+It also obviously defines what a player is.
 
-TODO:
-* Try to make attribute generation not _as_ random. For example, it
-    is weird when a goalie has 50 in reflexes but 85 in glove.
-
-[2025-03-14] Example player printed:
-```
--------------------------
-| [SWE] Christian Björklund, 19
-| Position: Defender
-| Shoots: Left
-| Height: 181 cm
-| Weight: 90 kg
-| Total:  71 OVR
--------------------------
-| Offensive awareness: 79
-| Passing:             74
-| Shooting:            57
-| Speed:               62
--------------------------
-| Defensive awareness: 84
-| Stick checking:      63
-| Shot blocking:       80
-| Strength:            73
--------------------------
-```
