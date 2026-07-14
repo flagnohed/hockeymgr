@@ -1,7 +1,7 @@
 CC = gcc
 CFLAGS = -g -Wextra -Wall -Wfloat-equal -Wshadow -Wpointer-arith \
-         -Wcast-align -Wstrict-prototypes -O2
-OBJS = main.o player.o team.o
+         -Wcast-align -Wstrict-prototypes -O2 -std=c99
+OBJS = main.o player.o
 
 hockeymgr: $(OBJS)
 	$(CC) -o hockeymgr $(OBJS)
