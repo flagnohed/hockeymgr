@@ -10,5 +10,5 @@ objs/%.o: %.c
 	$(CC) -c -o $@ $^ $(CFLAGS)
 
 clean:
-	rm -rf objs/*
+	rm -rf *.o
 	rm -f hockeymgr
