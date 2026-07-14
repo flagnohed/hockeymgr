@@ -4,7 +4,7 @@ CFLAGS = -g -Wextra -Wall -Wfloat-equal -Wshadow -Wpointer-arith \
 OBJS = main.o player.o
 
 hockeymgr: $(OBJS)
-	$(CC) -o hockeymgr $(OBJS)
+	$(CC) -o hockeymgr $(OBJS) -lm
 
 objs/%.o: %.c
 	$(CC) -c -o $@ $^ $(CFLAGS)

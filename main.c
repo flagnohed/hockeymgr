@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 
 static const char help[] = "Usage: hockeymgr <options>\n"
                            "-h, --help\n"
@@ -17,11 +18,7 @@ static void test_print_player(void) {
     player.weight = 100;
 
     Attributes_t attrs;
-    attrs.defense = 60;
-    attrs.hitting = 99;
-    attrs.shooting = 90;
-    attrs.passing = 55;
-    attrs.skating = 20;
+    player_set_random_attrs(&attrs);
     player.attrs = &attrs;
     player_print(&player, false);
 }
@@ -33,6 +30,7 @@ int main(int argc, char **argv) {
             return 0;
         }
     }
+    srand(time(NULL));
     test_print_player();
     return 0;
 }

@@ -3,6 +3,8 @@
 
 #include <stdbool.h>
 
+#define NUM_ATTRS 5  /* NOT including the total. */
+
 typedef enum {
     POS_GOALIE,
     POS_DEFENSEMAN,
@@ -15,6 +17,7 @@ typedef struct {
     unsigned int skating;
     unsigned int hitting;
     unsigned int defense;
+    unsigned int total;
 }   Attributes_t;
 
 typedef struct {
@@ -28,5 +31,6 @@ typedef struct {
 }   Player_t;
 
 void player_print(Player_t *player, bool skip_attrs);
+void player_set_random_attrs(Attributes_t *attrs);
 
 #endif
