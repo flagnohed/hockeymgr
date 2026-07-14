@@ -1,15 +1,10 @@
-This subdirectory contains the C implementation of HockeyMgr.
-Very unnecessary but could be fun to implement.
+# Hockeymgr
 
-## Files
-This section describes the intended structure of this repo.
-The program is built with `make`
+## Implemented
 
-### main.c
-Contains the main driver of the program. 
-Also implements the logic for games, i.e. simulations etc.
+* Print player with info and attributes.
 
-### player.c
-The player module can be used to generate random players.
-It also obviously defines what a player is.
 
+## TODO
+
+* Create semi-random players (normal distribution).
